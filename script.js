@@ -233,3 +233,112 @@ document.addEventListener("DOMContentLoaded", function () {
     yearElement.textContent = new Date().getFullYear();
   }
 });
+
+// MOBILE MENU TOGGLE
+document.addEventListener("DOMContentLoaded", function () {
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+  const navMenu = document.getElementById("navMenu");
+
+  if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener("click", function () {
+      navMenu.classList.toggle("active");
+      // Change menu icon
+      this.textContent = navMenu.classList.contains("active") ? "✕" : "☰";
+    });
+
+    // Close menu when clicking on a link
+    const navLinks = navMenu.querySelectorAll("a");
+    navLinks.forEach((link) => {
+      link.addEventListener("click", function () {
+        navMenu.classList.remove("active");
+        mobileMenuBtn.textContent = "☰";
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", function (event) {
+      if (
+        !navMenu.contains(event.target) &&
+        !mobileMenuBtn.contains(event.target)
+      ) {
+        navMenu.classList.remove("active");
+        mobileMenuBtn.textContent = "☰";
+      }
+    });
+
+    // Close menu on window resize (if resizing to desktop)
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 768) {
+        navMenu.classList.remove("active");
+        mobileMenuBtn.textContent = "☰";
+      }
+    });
+  }
+});
+
+// MODERN RESPONSIVE NAVIGATION
+document.addEventListener("DOMContentLoaded", function () {
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".nav-menu");
+  const navLinks = document.querySelectorAll(".nav-link");
+  const body = document.body;
+
+  // Toggle mobile menu
+  function toggleMenu() {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+    body.classList.toggle("menu-open");
+  }
+
+  // Close mobile menu
+  function closeMenu() {
+    hamburger.classList.remove("active");
+    navMenu.classList.remove("active");
+    body.classList.remove("menu-open");
+  }
+
+  // Event Listeners
+  if (hamburger) {
+    hamburger.addEventListener("click", toggleMenu);
+  }
+
+  // Close menu when clicking on links
+  navLinks.forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", function (event) {
+    const isClickInsideNav = document
+      .querySelector(".nav-container")
+      .contains(event.target);
+    if (!isClickInsideNav && navMenu.classList.contains("active")) {
+      closeMenu();
+    }
+  });
+
+  // Close menu on escape key
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && navMenu.classList.contains("active")) {
+      closeMenu();
+    }
+  });
+
+  // Close menu on window resize (if resizing to desktop)
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 768 && navMenu.classList.contains("active")) {
+      closeMenu();
+    }
+  });
+
+  // Prevent scrolling when menu is open on mobile
+  navMenu.addEventListener(
+    "touchmove",
+    function (e) {
+      if (navMenu.classList.contains("active")) {
+        e.preventDefault();
+      }
+    },
+    { passive: false }
+  );
+});
