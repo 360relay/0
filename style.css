@@ -121,6 +121,31 @@ body {
   }
 }
 
+/* Position count animation */
+#positions {
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+/* Visual feedback for number changes */
+.position-update {
+  animation: pulseUpdate 0.5s ease-in-out;
+}
+
+@keyframes pulseUpdate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+    color: #ff6b6b;
+  }
+  100% {
+    transform: scale(1);
+    color: #ffeb3b;
+  }
+}
+
 /* ===== MODERN RESPONSIVE NAVIGATION ===== */
 .navbar {
   position: fixed;
