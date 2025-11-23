@@ -17,6 +17,8 @@ function initialSetup() {
       "fullname",
       "address",
       "city",
+      "state",
+      "zipcode",
       "email",
       "phone",
       "terms",
@@ -43,13 +45,15 @@ function doPost(e) {
     const fullname = data.fullname || "";
     const address = data.address || "";
     const city = data.city || "";
+    const state = data.state || "";
+    const zipcode = data.zipcode || "";
     const email = data.email || "";
     const phone = data.phone || "";
     const terms = data.terms || "";
     const newsletter = data.newsletter || "";
     const source = data.source || "";
 
-    const formattedAddress = `${fullname}\n${address}\n${city}\n${email}\n${phone}\n================`;
+    const formattedAddress = `${fullname}\n${address}\n${city}, ${state} ${zipcode}\n${email}\n${phone}\n================`;
 
     // Prepare the new row data
     const newRow = [
@@ -57,7 +61,9 @@ function doPost(e) {
       fullname,
       address,
       city,
-      email,
+      state,
+      city,
+      zipcode,
       phone,
       terms,
       newsletter,
@@ -97,7 +103,9 @@ function testDoPost() {
   const testData = {
     fullname: "John Doe",
     address: "123 Main St",
-    city: "New York, NY 10001",
+    city: "New York,",
+    city: "NY",
+    city: "10001",
     email: "john@example.com",
     phone: "555-123-4567",
     terms: "Yes",

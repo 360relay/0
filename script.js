@@ -110,6 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
       fullname: formData.get("fullname") || "",
       address: formData.get("address") || "",
       city: formData.get("city") || "",
+      state: formData.get("state") || "",
+      zipcode: formData.get("zipcode") || "",
       email: formData.get("email") || "",
       phone: formData.get("phone") || "",
       terms: formData.get("terms") ? "Yes" : "No",
