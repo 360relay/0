@@ -17,9 +17,67 @@ document.addEventListener("DOMContentLoaded", function () {
     initFloatingLabels();
   }
 
+  // ========== ADD REAL-TIME GMAIL VALIDATION ==========
+  const emailInput = document.getElementById("email");
+  if (emailInput) {
+    emailInput.addEventListener("input", function () {
+      const emailValue = this.value.trim();
+      const errorDiv = this.closest(".form-group.floating")?.querySelector(
+        ".gmail-error"
+      );
+
+      if (emailValue && !emailValue.toLowerCase().endsWith("@gmail.com")) {
+        // Show or update error
+        if (!errorDiv) {
+          const newError = document.createElement("div");
+          newError.className = "gmail-error";
+          newError.textContent = "Please use a Gmail account";
+          newError.style.cssText = `
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 4px;
+          `;
+          this.closest(".form-group.floating").appendChild(newError);
+        }
+        this.classList.add("error");
+      } else {
+        // Remove error if exists
+        if (errorDiv) {
+          errorDiv.remove();
+        }
+        this.classList.remove("error");
+      }
+    });
+  }
+  // ========== END REAL-TIME VALIDATION ==========
+
   if (applicationForm) {
     applicationForm.addEventListener("submit", async function (event) {
       event.preventDefault();
+
+      // ========== GMAIL VALIDATION HERE ==========
+      const emailInput = document.getElementById("email");
+      const emailValue = emailInput ? emailInput.value.trim() : "";
+
+      // Check if email ends with @gmail.com
+      if (!emailValue.toLowerCase().endsWith("@gmail.com")) {
+        // Show error without alert (better UX)
+        showGmailError(emailInput);
+
+        // Reset button state (since we're not submitting)
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          const btnText = submitBtn.querySelector(".btn-text");
+          const btnLoading = submitBtn.querySelector(".btn-loading");
+          if (btnText && btnLoading) {
+            btnText.style.display = "inline-block";
+            btnLoading.style.display = "none";
+          }
+        }
+
+        return false; // Stop form submission
+      }
+      // ========== END GMAIL VALIDATION ==========
 
       // Show loading state
       if (submitBtn) {
@@ -186,6 +244,58 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDiv.remove();
       }
     }, 5000);
+  }
+
+  // Show Gmail error message
+  function showGmailError(emailInput) {
+    // Remove existing Gmail error
+    const existingError = document.querySelector(".gmail-error");
+    if (existingError) {
+      existingError.remove();
+    }
+
+    // Create error message
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "gmail-error";
+    errorDiv.textContent =
+      "Please use a Gmail address. Our assignment system requires Gmail for secure communication and task management.";
+    errorDiv.style.cssText = `
+      color: #ef4444;
+      font-size: 12px;
+      margin-top: 4px;
+      padding: 4px 8px;
+      background: #fef2f2;
+      border-radius: 4px;
+      border-left: 3px solid #ef4444;
+      animation: slideIn 0.3s ease;
+    `;
+
+    // Insert after email input
+    const emailGroup = emailInput.closest(".form-group.floating");
+    if (emailGroup) {
+      emailGroup.appendChild(errorDiv);
+      emailInput.classList.add("error");
+      emailInput.focus();
+    }
+
+    // Add CSS animation if not already present
+    if (!document.querySelector("#gmail-error-styles")) {
+      const style = document.createElement("style");
+      style.id = "gmail-error-styles";
+      style.textContent = `
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
   }
 
   // Function to show success message and hide form

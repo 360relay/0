@@ -198,19 +198,26 @@
                 </div>
 
                 <div class="form-row">
-                  <div class="form-group floating">
+                  <div class="form-group floating email-group">
                     <input
                       type="email"
                       id="email"
                       name="email"
                       placeholder=" "
                       required
+                      pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+                      title="ℹ️Please use your Gmail account (required for assignments)"
                     />
-                    <label for="email"
-                      >Email Address <span class="required">*</span></label
-                    >
+                    <label for="email">
+                      Gmail Address <span class="required">*</span>
+                    </label>
+                    <div class="field-helper">
+                      <span class="helper-icon">ℹ️</span>
+                      <span>Use your Gmail account for assignment access</span>
+                    </div>
+                    <div class="error-message" id="email-error"></div>
                   </div>
-                  <div class="form-group floating">
+                  <div class="form-group floating phone-group">
                     <input
                       type="tel"
                       id="phone"
