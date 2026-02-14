@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initFloatingLabels();
   }
 
-  // ========== ADD REAL-TIME EMAIL VALIDATION ==========
+  // ========== ADD REAL-TIME EMAIL VALIDATION (GMAIL ONLY) ==========
   const emailInput = document.getElementById("email");
   if (emailInput) {
     emailInput.addEventListener("input", function () {
@@ -26,15 +26,15 @@ document.addEventListener("DOMContentLoaded", function () {
         ".email-error"
       );
 
-      // Basic email format validation
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // Gmail-only validation
+      const gmailPattern = /^[^\s@]+@gmail\.com$/;
 
-      if (emailValue && !emailPattern.test(emailValue)) {
+      if (emailValue && !gmailPattern.test(emailValue)) {
         // Show or update error
         if (!errorDiv) {
           const newError = document.createElement("div");
           newError.className = "email-error";
-          newError.textContent = "Please enter a valid email address";
+          newError.textContent = "Only Gmail addresses are accepted";
           newError.style.cssText = `
             color: #ef4444;
             font-size: 12px;
@@ -58,16 +58,16 @@ document.addEventListener("DOMContentLoaded", function () {
     applicationForm.addEventListener("submit", async function (event) {
       event.preventDefault();
 
-      // ========== EMAIL VALIDATION HERE ==========
+      // ========== GMAIL VALIDATION HERE ==========
       const emailInput = document.getElementById("email");
       const emailValue = emailInput ? emailInput.value.trim() : "";
 
-      // Basic email format validation
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // Gmail-only validation
+      const gmailPattern = /^[^\s@]+@gmail\.com$/;
 
-      if (!emailPattern.test(emailValue)) {
-        // Show error without alert (better UX)
-        showEmailError(emailInput, "Please enter a valid email address");
+      if (!gmailPattern.test(emailValue)) {
+        // Show error without alert
+        showEmailError(emailInput, "Only Gmail addresses are accepted");
 
         // Reset button state (since we're not submitting)
         if (submitBtn) {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return false; // Stop form submission
       }
-      // ========== END EMAIL VALIDATION ==========
+      // ========== END GMAIL VALIDATION ==========
 
       // Show loading state
       if (submitBtn) {
@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Show email error message
   function showEmailError(
     emailInput,
-    message = "Please enter a valid email address"
+    message = "Only Gmail addresses are accepted"
   ) {
     // Remove existing email error
     const existingError = document.querySelector(".email-error");
